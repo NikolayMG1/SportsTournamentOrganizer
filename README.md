@@ -1,4 +1,4 @@
-Technologies used
+<h1> Technologies used</h1>
 Spring Boot
 Hibernate
 Java 21
