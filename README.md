@@ -1,12 +1,12 @@
 <h1> Technologies used</h1>
-<li>
-  <ul>Spring Boot</ul>
-  <ul>Hibernate</ul>
-  <ul>Java 21</ul>
-  <ul>Git</ul>
-  <ul>React</ul>
-  <ul>SQL db</ul>
-</li>
+<ul>
+  <li>Spring Boot</li>
+  <li>Hibernate</li>
+  <li>Java 21</li>
+  <li>Git</li>
+  <li>React</li>
+  <li>SQL db</li>
+</ul>
 
 
 <h1>Functionality Mapping for Sports Tournament Organizer:</h1>
