@@ -64,3 +64,4 @@ Functionality: Provide users with a history of their tournament participation, i
 
 <h1><strong>Logout:</strong></h1>
 Functionality: Provide users with the ability to log out of their account.
+<img src="../dbd.png"/>
