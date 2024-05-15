@@ -59,12 +59,6 @@ Functionality: Categorize participants and teams based on attributes such as ama
 <h1><strong>View Tournament Schedules, Updates, and Results:</strong></h1>
 Functionality: Provide users with an overview of tournament schedules, updates, and results via email or platform notifications.
 
-<h1><strong>View Wallet Summary:</strong></h1>
-Functionality: Provide users with an overview of their tournament registrations and team memberships.
-
-<h1><strong>View Wallet History:</strong></h1>
-Functionality: Provide users with a history of their tournament participation, including past registrations, match results, and standings.
-
 <h1><strong>Logout:</strong></h1>
 Functionality: Provide users with the ability to log out of their account.
 <img src="/dbd.png"/>
