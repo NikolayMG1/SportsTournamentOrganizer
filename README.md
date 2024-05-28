@@ -1,64 +1,71 @@
-<h1> Technologies used</h1>
-<ul>
-  <li>Spring Boot</li>
-  <li>Hibernate</li>
-  <li>Java 21</li>
-  <li>Git</li>
-  <li>React</li>
-  <li>SQL db</li>
-</ul>
+# Technologies used
+- Spring Boot
+- Hibernate
+- Java 21
+- Git
+- React
+- SQL db
 
+# Functionality Mapping for Sports Tournament Organizer
 
-<h1>Functionality Mapping for Sports Tournament Organizer:</h1>
+## Register
+**Functionality:** Allow users to register an account to manage tournaments, teams, and participants.
 
-<h1><strong>Register:</strong></h1>
-Functionality: Allow users to register an account to manage tournaments, teams, and participants.
+## Login
+**Functionality:** Provide authentication functionality for users to access their account.
 
-<h1><strong>Login:</strong></h1>
-Functionality: Provide authentication functionality for users to access their account.
+## Logout
+**Functionality:** Provide users with the ability to log out of their account.
 
-<h1><strong>List Tournaments:</strong></h1>
-Functionality: Provide a list of available tournaments for users to choose from.
+## Password recovery
+**Functionality:** Allow all users to recover their password via email address.
 
-<h1><strong>Create Tournament:</strong></h1>
-Functionality: Allow administrators to create new tournaments, including details like sport type, dates, locations, and rules.
+## List Tournaments
+**Functionality:** Provide a list of available tournaments for users to choose from.
 
-<h1><strong>Edit Tournament:</strong></h1>
-Functionality: Allow administrators to edit tournament details, such as sport type, dates, locations, and rules.
+## Follow Tournament
+**Functionality:** Allow users to follow different tournaments to receive live updates and notifications.
 
-<h1><strong>Delete Tournament:</strong></h1>
-Functionality: Allow administrators to delete tournaments from the system.
+## Create Tournament
+**Functionality:** Allow the tournament organizers to create new tournaments, including details like sport type, dates, locations, and rules.
 
-<h1><strong>List Teams:</strong></h1>
-Functionality: Provide a list of available teams for users to choose from.
+## Edit Tournament
+**Functionality:** Allow team organizers to edit tournament details, such as sport type, dates, locations, and rules.
 
-<h1><strong>Register Team:</strong></h1>
-Functionality: Allow administrators to register teams for tournaments.
+## Delete Tournament
+**Functionality:** Allow administrators and tournament organizers to delete tournaments from the system.
 
-<h1><strong>Edit Team:</strong></h1>
-Functionality: Allow administrators to edit team details, such as team name and category.
+## List Teams
+**Functionality:** Provide a list of available teams for users to choose from.
 
-<h1><strong>Delete Team:</strong></h1>
-Functionality: Allow administrators to delete teams from the system.
+## Register Team
+**Functionality:** Allow administrators to register teams for tournaments.
 
-<h1><strong>Schedule Match:</strong></h1>
-Functionality: Allow administrators to schedule matches for tournaments, including match date, venue, and participating teams.
+## Edit Team
+**Functionality:** Allow administrators to edit team details, such as team name and category.
 
-<h1><strong>Update Match Result:</strong></h1>
-Functionality: Allow administrators to update match results and track team standings.
+## Delete Team
+**Functionality:** Allow administrators to delete teams from the system.
 
-<h1><strong>View Live Updates and Notifications:</strong></h1>
-Functionality: Provide real-time updates and notifications to teams and followers about match schedules, results, and standings.
+## Schedule Match
+**Functionality:** Allow administrators to schedule matches for tournaments, including match date, venue, and participating teams.
 
-<h1><strong>Manage Participants:</strong></h1>
-Functionality: Allow administrators to register participants for tournaments and manage participant details.
+## Update Match Result
+**Functionality:** Allow administrators to update match results and track team standings.
 
-<h1><strong>Categorize Participants and Teams:</strong></h1>
-Functionality: Categorize participants and teams based on attributes such as amateur, professional, or youth.
+## View Live Updates and Notifications
+**Functionality:** Provide real-time updates and notifications to teams and followers about match schedules, results, and standings.
 
-<h1><strong>View Tournament Schedules, Updates, and Results:</strong></h1>
-Functionality: Provide users with an overview of tournament schedules, updates, and results via email or platform notifications.
+## Manage Participants
+**Functionality:** Allow tournament organizers to register participants for tournaments and send invitations to specific tournaments.
 
-<h1><strong>Logout:</strong></h1>
-Functionality: Provide users with the ability to log out of their account.
-<img src="/dbd.png"/>
+## Categorize Participants and Teams
+**Functionality:** Allow tournament organizers to categorize participants and teams based on attributes such as amateur, professional, or youth.
+
+## View Tournament Schedules, Updates, and Results
+**Functionality:** Provide users with an overview of tournament schedules, updates, and results via email or platform notifications.
+
+## Validate requests
+**Functionality:** Allow administrators to monitor all requests for creating accounts as well as creating tournaments.
+
+![Database Diagram](/dbd.png)
