@@ -27,19 +27,24 @@ public class ModeratorController {
 
     @PostMapping
     public ResponseEntity<ModeratorOutputDto> createModerator(@RequestBody ModeratorInputDto moderatorInputDto) {
-        moderatorService.addModerator(moderatorMapper.mapFromInputDto(moderatorInputDto));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        ModeratorOutputDto moderatorOutputDto = moderatorMapper.mapToOutputDto(moderatorService.addModerator(moderatorMapper.mapFromInputDto(moderatorInputDto)));
+        return new ResponseEntity<>(moderatorOutputDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ModeratorOutputDto> getModerator(@PathVariable Integer id) {
+    public ResponseEntity<ModeratorOutputDto> getModerator(@PathVariable Long id) {
         return new ResponseEntity<>(moderatorMapper.mapToOutputDto(moderatorService.getModerator(id)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ModeratorOutputDto> deleteModerator(@PathVariable Integer id) {
-        moderatorService.removeModerator(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ModeratorOutputDto> deleteModerator(@PathVariable Long id) {
+       try {
+           moderatorService.removeModerator(id);
+           return new ResponseEntity<>(HttpStatus.OK);
+       }catch (Exception e) {
+           return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+       }
+
     }
 
 

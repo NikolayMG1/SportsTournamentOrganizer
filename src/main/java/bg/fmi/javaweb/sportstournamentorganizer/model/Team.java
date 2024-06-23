@@ -1,70 +1,60 @@
 package bg.fmi.javaweb.sportstournamentorganizer.model;
 
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
+@Entity(name = "teams")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Team {
-    private Integer teamId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long teamId;
+
     private String teamName;
+
+    @Enumerated(EnumType.STRING)
     private SportType participatedSport;
+
+    @Enumerated(EnumType.STRING)
     private SportMastery participatedSportMastery;
-    private Manager teamManager;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "managerId", referencedColumnName = "userId")
+    private Manager manager;
+
+    @OneToMany(mappedBy = "playerTeam")
     private List<Player> teamPlayers;
     //    List<Tournament> tournamentsToParticipate;
+
+    @ManyToMany(mappedBy = "followedTeams")
     private List<Follower> teamFollowers;
 
-    public Team(Integer teamId, String teamName, SportType participatedSport, SportMastery participatedSportMastery,
-                Manager teamManager, List<Player> teamPlayers, List<Follower> teamFollowers) {
+    @OneToMany(mappedBy = "host")
+    List<Match> homeMatches;
+
+    @OneToMany(mappedBy = "guest")
+    List<Match> anyMatches;
+
+    @ManyToOne
+    @JoinColumn(name = "tournamentId", referencedColumnName = "tournamentId")
+    private Tournament tournament;
+
+    public Team(Long teamId, String teamName, SportType participatedSport, SportMastery participatedSportMastery,
+                Manager manager, List<Player> teamPlayers, List<Follower> teamFollowers) {
         this.teamId = teamId;
         this.teamName = teamName;
         this.participatedSport = participatedSport;
         this.participatedSportMastery = participatedSportMastery;
-        this.teamManager = teamManager;
+        this.manager = manager;
         this.teamPlayers = teamPlayers;
         this.teamFollowers = teamFollowers;
     }
-
-    public Integer getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(Integer teamId) {
-        this.teamId = teamId;
-    }
-
-    public String getTeamName() {
-        return teamName;
-    }
-
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-
-    public SportType getParticipatedSport() {
-        return participatedSport;
-    }
-
-    public void setParticipatedSport(SportType participatedSport) {
-        this.participatedSport = participatedSport;
-    }
-
-    public SportMastery getParticipatedSportMastery() {
-        return participatedSportMastery;
-    }
-
-    public void setParticipatedSportMastery(SportMastery participatedSportMastery) {
-        this.participatedSportMastery = participatedSportMastery;
-    }
-
-    public Manager getTeamManager() {
-        return teamManager;
-    }
-
-    public void setTeamManager(Manager teamManager) {
-        this.teamManager = teamManager;
-    }
-
-
-
 
     @Override
     public int hashCode() {

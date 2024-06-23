@@ -26,19 +26,29 @@ public class FollowerController {
     private FollowerMapper followerMapper;
 
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<FollowerOutputDto> createFollower(@RequestBody FollowerInputDto followerInputDto) {
-        followerService.createFollower(followerMapper.mapFromInputDto(followerInputDto));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+
+        if(followerService.existsByEmail(followerInputDto.getEmail())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        if(followerService.existsByUsername(followerInputDto.getUsername())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+         FollowerOutputDto follower = followerMapper.mapToOutputDto(followerService.createFollower(followerMapper.mapFromInputDto(followerInputDto)));
+        return new ResponseEntity<>(follower, HttpStatus.CREATED);
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FollowerOutputDto> getFollower(@PathVariable Integer id) {
+    public ResponseEntity<FollowerOutputDto> getFollower(@PathVariable Long id) {
         return new ResponseEntity<>(followerMapper.mapToOutputDto(followerService.getFollower(id)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<FollowerOutputDto> deleteFollower(@PathVariable Integer id) {
+    public ResponseEntity<FollowerOutputDto> deleteFollower(@PathVariable Long id) {
         followerService.removeFollower(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

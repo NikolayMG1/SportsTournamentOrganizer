@@ -1,12 +1,18 @@
 package bg.fmi.javaweb.sportstournamentorganizer.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+import java.util.List;
+
+@Setter
+@Getter
 public class FollowerInputDto {
-    String userName;
-    String email;
-    String password;
+    // getters and setters
+
+    private String username;
+    private String email;
+    private String password;
+
 
 }
-

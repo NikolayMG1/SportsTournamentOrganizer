@@ -1,19 +1,20 @@
 package bg.fmi.javaweb.sportstournamentorganizer.model;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
+@Getter
+@Entity(name = "managers")
+@NoArgsConstructor
 public class Manager extends User{
-    private Team teamToManage = null;
 
-    public Team getTeamToManage() {
-        return teamToManage;
-    }
-
-    public void setTeamToManage(Team teamToManage) {
-        this.teamToManage = teamToManage;
-    }
-
-
+    @OneToOne(mappedBy = "manager")
+    private Team teamToManage;
 
     @Override
     public int hashCode() {

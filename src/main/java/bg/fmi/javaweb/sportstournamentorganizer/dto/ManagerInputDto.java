@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ManagerInputDto {
-    String userName;
+    String username;
     String email;
     String password;
 

@@ -1,56 +1,25 @@
 package bg.fmi.javaweb.sportstournamentorganizer.model;
 
 
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
+@Setter
+@Getter
 @Data
+@MappedSuperclass
 public abstract class User {
-    private Integer userId = null;
-    private String userName = null;
-    private String email = null;
-    private String password = null;
-    private MessageBox messageBox = null;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer userId ;
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public MessageBox getMessageBox() {
-        return messageBox;
-    }
-
-    public void setMessageBox(MessageBox messageBox) {
-        this.messageBox = messageBox;
-    }
+    private String username;
+    private String email;
+    private String password;
+    //private MessageBox messageBox;
 
     @Override
     public int hashCode() {

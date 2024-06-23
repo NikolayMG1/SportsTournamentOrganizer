@@ -1,18 +1,27 @@
 package bg.fmi.javaweb.sportstournamentorganizer.model;
 
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@Getter
+@Entity(name = "followers")
+@NoArgsConstructor
 public class Follower extends User{
-    private List<Team> followedTeams = List.of();
-    private List<Tournament> followedTournaments = List.of();
 
-    public List<Team> getFollowedTeams() {
-        return followedTeams;
-    }
+    @ManyToMany
+    @JoinTable(name = "follower_team",
+                joinColumns = @JoinColumn(name = "userId"),
+                inverseJoinColumns = @JoinColumn(name = "teamId"))
+    private List<Team> followedTeams;
 
-    public List<Tournament> getFollowedTournaments() {
-        return followedTournaments;
-    }
+    @ManyToMany
+    @JoinTable(name = "follower_tournament",
+                joinColumns = @JoinColumn(name = "userId"),
+                inverseJoinColumns = @JoinColumn(name = "tournamentId"))
+    private List<Tournament> followedTournaments;
 
     @Override
     public int hashCode() {

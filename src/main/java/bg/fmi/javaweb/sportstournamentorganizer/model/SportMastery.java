@@ -1,5 +1,8 @@
 package bg.fmi.javaweb.sportstournamentorganizer.model;
 
+import lombok.Getter;
+
+@Getter
 public enum SportMastery {
     AMATEUR("Amateur"),
     PROFESSIONAL("Professional"),
@@ -12,7 +15,4 @@ public enum SportMastery {
         this.sportMastery = sportMastery;
     }
 
-    public String getSportMastery() {
-        return sportMastery;
-    }
 }

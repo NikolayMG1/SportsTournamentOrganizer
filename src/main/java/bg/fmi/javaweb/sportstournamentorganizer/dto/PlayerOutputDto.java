@@ -1,13 +1,12 @@
 package bg.fmi.javaweb.sportstournamentorganizer.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class ManagerOutputDto {
+@Getter
+@Setter
+public class PlayerOutputDto {
     String username;
     String email;
     String password;
-    //TeamOutputDto
-
 }
-

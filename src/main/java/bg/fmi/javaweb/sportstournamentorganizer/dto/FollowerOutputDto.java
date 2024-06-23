@@ -1,17 +1,18 @@
 package bg.fmi.javaweb.sportstournamentorganizer.dto;
 
-import bg.fmi.javaweb.sportstournamentorganizer.model.Team;
-import bg.fmi.javaweb.sportstournamentorganizer.model.Tournament;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Setter
+@Getter
 public class FollowerOutputDto {
-    String userName;
-    String email;
-    List<Team> followedTeams;
-    List<Tournament> followedTournaments;
+    // getters and setters
+    private String username;
+    private String email;
+    private String password;
+//    private List<Long> followedTeams;
+//    private List<Long> followedTournaments;
 
 }
-

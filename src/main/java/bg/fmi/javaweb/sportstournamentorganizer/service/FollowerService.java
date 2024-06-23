@@ -2,41 +2,48 @@ package bg.fmi.javaweb.sportstournamentorganizer.service;
 
 import bg.fmi.javaweb.sportstournamentorganizer.model.Follower;
 import bg.fmi.javaweb.sportstournamentorganizer.repository.FollowerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FollowerService {
-    private FollowerRepository followerRepository = new FollowerRepository();
+    @Autowired
+    private FollowerRepository followerRepository;
 
-    public void createFollower(Follower follower) {
-        followerRepository.addFollower(follower);
+    public Follower createFollower(Follower follower) {
+        return followerRepository.save(follower);
     }
 
-    public boolean removeFollower(Integer id) {
-        return followerRepository.removeFollower(id);
+    public void removeFollower(Long id) {
+        followerRepository.deleteById(id);
+    }
+    public Follower getFollower(Long id) {
+        return followerRepository.getReferenceById(id);
     }
 
-    public Follower getFollower(Integer id) {
-        return followerRepository.getFollower(id);
+    public boolean existsByEmail(String email) {
+        return followerRepository.existsByEmail(email);
     }
 
-    public void updateFollower(Follower follower) {
-        followerRepository.updateFollower(follower);
+    public boolean existsByUsername(String username) {
+        return followerRepository.existsByUsername(username);
     }
+//
+//    public void updateFollower(Follower follower) {
+//        followerRepository.updateFollower(follower);
+//    }
+//
+//    public void updateFollowerName(Integer id, String userName) {
+//        followerRepository.updateFollowerName(id, userName);
+//    }
+//
+//    public void updateFollowerEmail(Integer id, String email) {
+//        followerRepository.updateFollowerEmail(id, email);
+//    }
 
-    public void updateFollowerName(Integer id, String userName) {
-        followerRepository.updateFollowerName(id, userName);
-    }
-
-    public void updateFollowerEmail(Integer id, String email) {
-        followerRepository.updateFollowerEmail(id, email);
-    }
-
-    public void updateFollowerPassword(Integer id, String password) {
-        followerRepository.updateFollowerPassword(id, password);
-    }
-
-
+//    public void updateFollowerPassword(Integer id, String password) {
+//        followerRepository.updateFollowerPassword(id, password);
+//    }
 
 }
 

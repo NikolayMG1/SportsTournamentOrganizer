@@ -1,5 +1,8 @@
 package bg.fmi.javaweb.sportstournamentorganizer.model;
 
+import lombok.Getter;
+
+@Getter
 public enum SportType {
     FOOTBALL("Football"),
     BASKETBALL("Basketball"),
@@ -11,10 +14,6 @@ public enum SportType {
 
     SportType(String sportType) {
         this.sportType = sportType;
-    }
-
-    public String getSportType() {
-        return sportType;
     }
 
 }

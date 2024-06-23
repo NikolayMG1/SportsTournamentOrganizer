@@ -4,8 +4,9 @@ import lombok.Data;
 
 @Data
 public class ModeratorOutputDto {
-    String userName;
+    String username;
     String email;
+    String password;
     // TournamentOutputDto
 
 }

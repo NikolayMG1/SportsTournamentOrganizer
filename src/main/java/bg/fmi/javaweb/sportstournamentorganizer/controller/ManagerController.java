@@ -32,12 +32,12 @@ public class ManagerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ManagerOutputDto> getManager(@PathVariable Integer id) {
+    public ResponseEntity<ManagerOutputDto> getManager(@PathVariable Long id) {
         return new ResponseEntity<>(managerMapper.mapToOutputDto(managerService.getManager(id)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ManagerOutputDto> deleteManager(@PathVariable Integer id) {
+    public ResponseEntity<ManagerOutputDto> deleteManager(@PathVariable Long id) {
         managerService.removeManager(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
