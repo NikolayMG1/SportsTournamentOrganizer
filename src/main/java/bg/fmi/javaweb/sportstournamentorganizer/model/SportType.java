@@ -10,7 +10,7 @@ public enum SportType {
     VOLLEYBALL("Volleyball"),
     RUGBY("Rugby");
 
-    private String sportType;
+    private final String sportType;
 
     SportType(String sportType) {
         this.sportType = sportType;

@@ -21,7 +21,7 @@ public interface FollowerMapper {
 //    @Mapping(source = "followedTournaments", target = "followedTournaments", qualifiedByName = "mapTournamentIdsToTournaments")
     Follower mapFromInputDto(FollowerInputDto followerInputDto);
 
-
+    @Mapping(source="userId", target="id")
     @Mapping(source = "username", target = "username")
     @Mapping(source = "email", target = "email")
     @Mapping(source = "password", target = "password")

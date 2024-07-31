@@ -6,7 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PlayerOutputDto {
-    String username;
-    String email;
-    String password;
+    private Long id;
+    private String username;
+    private String email;
+    private String password;
 }

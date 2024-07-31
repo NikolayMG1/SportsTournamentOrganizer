@@ -1,6 +1,7 @@
 package bg.fmi.javaweb.sportstournamentorganizer.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,18 +26,21 @@ public class Tournament {
     @JoinColumn(name="moderator_id", referencedColumnName = "userId")
     private Moderator tournamentModerator;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime tournamentStart;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime tournamentEnd;
+
     private String tournamentLocation;
 
     @Enumerated(EnumType.STRING)
-    private SportType tournamentSportType;
+    private SportType sportType;
 
     @Enumerated(EnumType.STRING)
-    private SportMastery tournamentSportMastery;
+    private SportMastery sportMastery;
 
     @OneToMany(mappedBy = "tournament")
     private List<Team> teamsParticipated;
@@ -50,15 +54,16 @@ public class Tournament {
     //    Team winner;
     public Tournament(Long tournamentId, String tournamentName, Moderator tournamentModerator,
                       LocalDateTime tournamentStart, LocalDateTime tournamentEnd, String tournamentLocation,
-                      SportType tournamentSportType, SportMastery tournamentSportMastery,
+                      SportType sportType, SportMastery tournamentSportMastery,
                       List<Team> teamsParticipated, List<Follower> tournamentFollowers) {
         this.tournamentId = tournamentId;
+        this.tournamentName = tournamentName;
         this.tournamentModerator = tournamentModerator;
         this.tournamentStart = tournamentStart;
         this.tournamentEnd = tournamentEnd;
         this.tournamentLocation = tournamentLocation;
-        this.tournamentSportType = tournamentSportType;
-        this.tournamentSportMastery = tournamentSportMastery;
+        this.sportType = sportType;
+        this.sportMastery = tournamentSportMastery;
         this.teamsParticipated = teamsParticipated;
         this.tournamentFollowers = tournamentFollowers;
     }

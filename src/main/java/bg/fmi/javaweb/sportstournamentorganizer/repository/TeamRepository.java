@@ -1,15 +1,18 @@
 package bg.fmi.javaweb.sportstournamentorganizer.repository;
 
+import bg.fmi.javaweb.sportstournamentorganizer.model.Manager;
 import bg.fmi.javaweb.sportstournamentorganizer.model.Team;
-import bg.fmi.javaweb.sportstournamentorganizer.repository.sequence.TeamSequence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public interface TeamRepository extends JpaRepository<Team, Long> {
+    Optional<Team> findById(Long id);
+    Optional<Team> findByManager_UserId(Long managerId);
+
+    Optional<Team> findByTeamName(String teamName);
 //    private static Map<Integer, Team> teamMap = new HashMap<>();
 //
 //    public void addTeam(Team team) {

@@ -16,6 +16,8 @@ public interface FollowerRepository extends JpaRepository<Follower, Long> {
     void deleteById(Long id);
 
     boolean existsByEmail(String email);
+
+    Optional<Follower> findById(Long id);
     boolean existsByUsername(String username);
 //    private static Map<Integer, Follower> followerMap = new HashMap<>();
 //

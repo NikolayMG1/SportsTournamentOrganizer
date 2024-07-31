@@ -2,7 +2,6 @@ package bg.fmi.javaweb.sportstournamentorganizer.controller;
 
 import bg.fmi.javaweb.sportstournamentorganizer.dto.FollowerInputDto;
 import bg.fmi.javaweb.sportstournamentorganizer.dto.FollowerOutputDto;
-import bg.fmi.javaweb.sportstournamentorganizer.mapper.FollowerMapper;
 import bg.fmi.javaweb.sportstournamentorganizer.service.FollowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,29 +21,16 @@ public class FollowerController {
     @Autowired
     private FollowerService followerService;
 
-    @Autowired
-    private FollowerMapper followerMapper;
-
 
     @PostMapping("/create")
     public ResponseEntity<FollowerOutputDto> createFollower(@RequestBody FollowerInputDto followerInputDto) {
 
-        if(followerService.existsByEmail(followerInputDto.getEmail())) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        if(followerService.existsByUsername(followerInputDto.getUsername())) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-         FollowerOutputDto follower = followerMapper.mapToOutputDto(followerService.createFollower(followerMapper.mapFromInputDto(followerInputDto)));
-        return new ResponseEntity<>(follower, HttpStatus.CREATED);
-
+        return new ResponseEntity<>(followerService.createFollower(followerInputDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<FollowerOutputDto> getFollower(@PathVariable Long id) {
-        return new ResponseEntity<>(followerMapper.mapToOutputDto(followerService.getFollower(id)), HttpStatus.OK);
+        return new ResponseEntity<>(followerService.findById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -52,8 +38,6 @@ public class FollowerController {
         followerService.removeFollower(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 
 }
 

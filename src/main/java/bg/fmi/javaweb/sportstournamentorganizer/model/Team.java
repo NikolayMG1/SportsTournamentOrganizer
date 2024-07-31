@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.context.annotation.Lazy;
 
 import java.util.List;
 
@@ -19,26 +20,29 @@ public class Team {
     private String teamName;
 
     @Enumerated(EnumType.STRING)
-    private SportType participatedSport;
+    private SportType sportType;
 
     @Enumerated(EnumType.STRING)
-    private SportMastery participatedSportMastery;
+    private SportMastery sportMastery;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "managerId", referencedColumnName = "userId")
     private Manager manager;
 
     @OneToMany(mappedBy = "playerTeam")
+    @Lazy
     private List<Player> teamPlayers;
-    //    List<Tournament> tournamentsToParticipate;
 
     @ManyToMany(mappedBy = "followedTeams")
+    @Lazy
     private List<Follower> teamFollowers;
 
     @OneToMany(mappedBy = "host")
+    @Lazy
     List<Match> homeMatches;
 
     @OneToMany(mappedBy = "guest")
+    @Lazy
     List<Match> anyMatches;
 
     @ManyToOne
@@ -49,8 +53,8 @@ public class Team {
                 Manager manager, List<Player> teamPlayers, List<Follower> teamFollowers) {
         this.teamId = teamId;
         this.teamName = teamName;
-        this.participatedSport = participatedSport;
-        this.participatedSportMastery = participatedSportMastery;
+        this.sportType = participatedSport;
+        this.sportMastery = participatedSportMastery;
         this.manager = manager;
         this.teamPlayers = teamPlayers;
         this.teamFollowers = teamFollowers;

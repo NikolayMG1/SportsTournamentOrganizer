@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class ModeratorInputDto {
-    String username;
-    String email;
-    String password;
+    private String username;
+    private String email;
+    private String password;
 
 }
 

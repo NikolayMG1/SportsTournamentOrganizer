@@ -3,7 +3,6 @@ package bg.fmi.javaweb.sportstournamentorganizer.controller;
 
 import bg.fmi.javaweb.sportstournamentorganizer.dto.ModeratorInputDto;
 import bg.fmi.javaweb.sportstournamentorganizer.dto.ModeratorOutputDto;
-import bg.fmi.javaweb.sportstournamentorganizer.mapper.ModeratorMapper;
 import bg.fmi.javaweb.sportstournamentorganizer.service.ModeratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,18 +21,16 @@ public class ModeratorController {
     @Autowired
     private ModeratorService moderatorService;
 
-    @Autowired
-    private ModeratorMapper moderatorMapper;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ModeratorOutputDto> createModerator(@RequestBody ModeratorInputDto moderatorInputDto) {
-        ModeratorOutputDto moderatorOutputDto = moderatorMapper.mapToOutputDto(moderatorService.addModerator(moderatorMapper.mapFromInputDto(moderatorInputDto)));
+        ModeratorOutputDto moderatorOutputDto = moderatorService.addModerator(moderatorInputDto);
         return new ResponseEntity<>(moderatorOutputDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ModeratorOutputDto> getModerator(@PathVariable Long id) {
-        return new ResponseEntity<>(moderatorMapper.mapToOutputDto(moderatorService.getModerator(id)), HttpStatus.OK);
+        return new ResponseEntity<>(moderatorService.getModeratorById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

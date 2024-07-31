@@ -8,7 +8,7 @@ import java.util.List;
 @Setter
 @Getter
 public class FollowerOutputDto {
-    // getters and setters
+    private Long id;
     private String username;
     private String email;
     private String password;

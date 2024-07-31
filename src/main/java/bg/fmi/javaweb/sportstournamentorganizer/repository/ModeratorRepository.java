@@ -1,17 +1,22 @@
 package bg.fmi.javaweb.sportstournamentorganizer.repository;
 
-import bg.fmi.javaweb.sportstournamentorganizer.model.MessageBox;
+
 import bg.fmi.javaweb.sportstournamentorganizer.model.Moderator;
-import bg.fmi.javaweb.sportstournamentorganizer.repository.sequence.UserSequence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public interface ModeratorRepository extends JpaRepository<Moderator, Long> {
+    Optional<Moderator> findById(Long id);
+    Optional<Moderator> findByUsername(String username);
+    //Optional<Moderator> findTournamentBy_TournamentId(Long tournament_id);
+
+
 //    private static Map<Integer, Moderator> moderatorMap = new HashMap<>();
 //
 //    public void addModerator(Moderator moderator) {
