@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.context.annotation.Lazy;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "teams")
 @Getter
@@ -31,30 +32,30 @@ public class Team {
 
     @OneToMany(mappedBy = "playerTeam")
     @Lazy
-    private List<Player> teamPlayers;
+    private Set<Player> teamPlayers;
 
     @ManyToMany(mappedBy = "followedTeams")
     @Lazy
-    private List<Follower> teamFollowers;
+    private Set<Follower> teamFollowers;
 
     @OneToMany(mappedBy = "host")
     @Lazy
-    List<Match> homeMatches;
+    Set<Match> homeMatches;
 
     @OneToMany(mappedBy = "guest")
     @Lazy
-    List<Match> anyMatches;
+    Set<Match> anyMatches;
 
     @ManyToOne
     @JoinColumn(name = "tournamentId", referencedColumnName = "tournamentId")
     private Tournament tournament;
 
-    public Team(Long teamId, String teamName, SportType participatedSport, SportMastery participatedSportMastery,
-                Manager manager, List<Player> teamPlayers, List<Follower> teamFollowers) {
+    public Team(Long teamId, String teamName, SportType sportType, SportMastery sportMastery,
+                Manager manager, Set<Player> teamPlayers, Set<Follower> teamFollowers) {
         this.teamId = teamId;
         this.teamName = teamName;
-        this.sportType = participatedSport;
-        this.sportMastery = participatedSportMastery;
+        this.sportType = sportType;
+        this.sportMastery = sportMastery;
         this.manager = manager;
         this.teamPlayers = teamPlayers;
         this.teamFollowers = teamFollowers;

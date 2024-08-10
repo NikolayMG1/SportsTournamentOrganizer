@@ -19,6 +19,7 @@ public abstract class User {
     private String username;
     private String email;
     private String password;
+    private String shortDescription;
     //private MessageBox messageBox;
 
     @Override

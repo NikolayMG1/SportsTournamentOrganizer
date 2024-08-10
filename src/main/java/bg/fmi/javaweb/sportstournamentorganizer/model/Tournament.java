@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,16 +23,16 @@ public class Tournament {
 
     private String tournamentName;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="moderator_id", referencedColumnName = "userId")
     private Moderator tournamentModerator;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime tournamentStart;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime tournamentEnd;
 
     private String tournamentLocation;
@@ -43,19 +44,19 @@ public class Tournament {
     private SportMastery sportMastery;
 
     @OneToMany(mappedBy = "tournament")
-    private List<Team> teamsParticipated;
+    private Set<Team> teamsParticipated;
 
     @ManyToMany(mappedBy = "followedTournaments")
-    private List<Follower> tournamentFollowers ;
+    private Set<Follower> tournamentFollowers ;
 
-    @OneToMany(mappedBy = "matchTournament")
-    private List<Match> matches;
+    @OneToMany(mappedBy = "tournament")
+    private Set<Match> matches;
 
     //    Team winner;
     public Tournament(Long tournamentId, String tournamentName, Moderator tournamentModerator,
                       LocalDateTime tournamentStart, LocalDateTime tournamentEnd, String tournamentLocation,
                       SportType sportType, SportMastery tournamentSportMastery,
-                      List<Team> teamsParticipated, List<Follower> tournamentFollowers) {
+                      Set<Team> teamsParticipated, Set<Follower> tournamentFollowers) {
         this.tournamentId = tournamentId;
         this.tournamentName = tournamentName;
         this.tournamentModerator = tournamentModerator;

@@ -16,7 +16,9 @@ import java.util.Optional;
 @Repository
 public interface ManagerRepository extends JpaRepository<Manager, Long> {
     boolean existsByUsername(String username);
+
     Optional<Manager> findByUsername(String username);
+
     Optional<Manager> findById(Long id);
 
     //    private static Map<Integer, Manager> managerMap = new HashMap<>();

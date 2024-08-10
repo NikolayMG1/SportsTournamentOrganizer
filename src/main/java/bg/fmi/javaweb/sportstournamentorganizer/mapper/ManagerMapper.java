@@ -10,8 +10,7 @@ import bg.fmi.javaweb.sportstournamentorganizer.model.Player;
 import bg.fmi.javaweb.sportstournamentorganizer.model.Team;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-//TODO
-//Fix the manager: fix the dtos
+
 @Mapper(componentModel = "spring")
 public interface ManagerMapper {
     @Mapping(source = "username", target = "username")

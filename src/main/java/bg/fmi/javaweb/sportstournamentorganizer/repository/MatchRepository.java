@@ -7,9 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Long> {
+    Optional<Match> findById(Long id);
 //    private static Map<Integer, Match> matchMap = new HashMap<>();
 //
 //    public void addMatch(Match match) {

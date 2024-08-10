@@ -1,14 +1,14 @@
 package bg.fmi.javaweb.sportstournamentorganizer.service;
 
-import bg.fmi.javaweb.sportstournamentorganizer.dto.ManagerInputDto;
-import bg.fmi.javaweb.sportstournamentorganizer.dto.ManagerOutputDto;
-import bg.fmi.javaweb.sportstournamentorganizer.dto.TeamInputDto;
-import bg.fmi.javaweb.sportstournamentorganizer.dto.TeamOutputDto;
+import bg.fmi.javaweb.sportstournamentorganizer.dto.*;
+import bg.fmi.javaweb.sportstournamentorganizer.exception.InvalidSportTypeException;
 import bg.fmi.javaweb.sportstournamentorganizer.exception.ManagerAlreadyExistsException;
 import bg.fmi.javaweb.sportstournamentorganizer.exception.ManagerNotFoundException;
 import bg.fmi.javaweb.sportstournamentorganizer.mapper.ManagerMapper;
+import bg.fmi.javaweb.sportstournamentorganizer.mapper.TeamMapper;
 import bg.fmi.javaweb.sportstournamentorganizer.model.Manager;
 import bg.fmi.javaweb.sportstournamentorganizer.model.Team;
+import bg.fmi.javaweb.sportstournamentorganizer.model.Tournament;
 import bg.fmi.javaweb.sportstournamentorganizer.repository.ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,12 @@ public class ManagerService {
 
     @Autowired
     private TeamService teamService;
+
+    @Autowired
+    private TeamMapper teamMapper;
+
+    @Autowired
+    private TournamentService tournamentService;
 
     public ManagerOutputDto addManager(ManagerInputDto manager) {
 
@@ -55,34 +61,44 @@ public class ManagerService {
         return managerMapper.mapToOutputDto(manager);
     }
 
-    //TODO
-    //Fix
     @Transactional(readOnly = false)
     public ManagerOutputDto addTeam(Long id, TeamInputDto teamInputDto) {
+        Manager manager = managerRepository.findById(id)
+                .orElseThrow(() -> new ManagerNotFoundException(id));
 
-        teamService.addTeam(teamInputDto);
+        Team team = teamService.addTeam(manager, teamInputDto);
 
-        Team team = teamService.toTeam(teamInputDto);
+        manager.setTeamToManage(team);
 
-        Manager manager = findByIdHelper(id);
-
-        team.setManager(manager);
-
-        manager = managerRepository.save(manager);
-
-        teamService.addTeam(teamInputDto);
-
-        return managerMapper.mapToOutputDto(manager);
+        return managerMapper.mapToOutputDto(managerRepository.save(manager));
     }
 
     public TeamOutputDto findTeamByManagerId(Long id) {
-        return teamService.findManagerBy_UserId(id);
+        return teamService.findManagerBy_UserIdToDto(id);
     }
 
-    private Manager findByIdHelper(Long id) {
-        return managerRepository.findById(id).orElseThrow(() -> new ManagerNotFoundException(id));
+    @Transactional
+    public TeamOutputDto addPlayerToTeam(Long id, String player) {
+        Manager manager = managerRepository.findById(id)
+                .orElseThrow(() -> new ManagerNotFoundException(id));
+
+        return teamMapper.mapToOutputDto(teamService.addPlayerToTeam(id, player));
     }
 
+    @Transactional
+    public TournamentOutputDto addTeamToTournament(Long managerId, String tournamentName) {
+        Team team = teamService.findManagerBy_UserId(managerId);
+        Tournament tournament = tournamentService.findByTournamentName(tournamentName);
+
+        if(!team.getSportType().equals(tournament.getSportType())) {
+            throw new InvalidSportTypeException(team.getTeamId(), tournament.getTournamentId());
+        }
+
+        tournament.getTeamsParticipated().add(team);
+
+        teamService.setTournamentToTeam(team, tournament);
+        return tournamentService.save(tournament);
+    }
 
 //    public void updateManager(Manager manager) {
 //        managerRepository.updateManager(manager);

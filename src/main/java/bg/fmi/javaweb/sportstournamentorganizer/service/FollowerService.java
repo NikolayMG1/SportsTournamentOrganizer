@@ -2,15 +2,23 @@ package bg.fmi.javaweb.sportstournamentorganizer.service;
 
 import bg.fmi.javaweb.sportstournamentorganizer.dto.FollowerInputDto;
 import bg.fmi.javaweb.sportstournamentorganizer.dto.FollowerOutputDto;
+import bg.fmi.javaweb.sportstournamentorganizer.dto.TeamOutputDto;
 import bg.fmi.javaweb.sportstournamentorganizer.exception.FollowerAlreadyExistsException;
 import bg.fmi.javaweb.sportstournamentorganizer.exception.FollowerNotFoundException;
+import bg.fmi.javaweb.sportstournamentorganizer.exception.TeamNotFoundException;
 import bg.fmi.javaweb.sportstournamentorganizer.mapper.FollowerMapper;
+import bg.fmi.javaweb.sportstournamentorganizer.mapper.TeamMapper;
 import bg.fmi.javaweb.sportstournamentorganizer.model.Follower;
+import bg.fmi.javaweb.sportstournamentorganizer.model.Team;
 import bg.fmi.javaweb.sportstournamentorganizer.repository.FollowerRepository;
+import bg.fmi.javaweb.sportstournamentorganizer.repository.TeamRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class FollowerService {
@@ -19,6 +27,12 @@ public class FollowerService {
 
     @Autowired
     private FollowerMapper followerMapper;
+
+    @Autowired
+    private TeamRepository teamRepository;
+
+    @Autowired
+    private TeamMapper teamMapper;
 
     public FollowerOutputDto createFollower(FollowerInputDto followerInputDto) {
         Follower follower = followerMapper.mapFromInputDto(followerInputDto);
@@ -32,6 +46,26 @@ public class FollowerService {
         }
 
         return followerMapper.mapToOutputDto(followerRepository.save(follower));
+    }
+
+    @Transactional
+    public FollowerOutputDto follow(String followerName, String teamName) {
+        Follower follower = followerRepository.findByUsername(followerName)
+                .orElseThrow(() -> new FollowerNotFoundException(followerName));
+
+        Team team = teamRepository.findByTeamName(teamName)
+                .orElseThrow(() -> new TeamNotFoundException(teamName));
+
+        follower.getFollowedTeams().add(team);
+
+        return followerMapper.mapToOutputDto(followerRepository.save(follower));
+    }
+
+    public List<TeamOutputDto> getFollowedTeams(Long id) {
+        Follower follower = followerRepository.findById(id).
+                orElseThrow(() -> new FollowerNotFoundException(id));
+
+        return follower.getFollowedTeams().stream().map(team -> teamMapper.mapToOutputDto(team)).toList();
     }
 
     public void removeFollower(Long id) {

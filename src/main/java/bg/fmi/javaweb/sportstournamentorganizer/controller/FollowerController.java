@@ -2,17 +2,14 @@ package bg.fmi.javaweb.sportstournamentorganizer.controller;
 
 import bg.fmi.javaweb.sportstournamentorganizer.dto.FollowerInputDto;
 import bg.fmi.javaweb.sportstournamentorganizer.dto.FollowerOutputDto;
+import bg.fmi.javaweb.sportstournamentorganizer.dto.TeamOutputDto;
 import bg.fmi.javaweb.sportstournamentorganizer.service.FollowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/follower")
@@ -37,6 +34,17 @@ public class FollowerController {
     public ResponseEntity<FollowerOutputDto> deleteFollower(@PathVariable Long id) {
         followerService.removeFollower(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/follow")
+    public ResponseEntity<FollowerOutputDto> followTeam(@RequestParam String followerName, @RequestParam String teamName) {
+        return new ResponseEntity<>(followerService.follow(followerName, teamName), HttpStatus.OK);
+    }
+
+    @GetMapping("/followed-teams")
+    public ResponseEntity<List<TeamOutputDto>> getFollowedTeams(@RequestParam Long id) {
+        return new ResponseEntity<>(followerService.getFollowedTeams(id), HttpStatus.OK);
+
     }
 
 }

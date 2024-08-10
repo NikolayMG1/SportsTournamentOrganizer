@@ -3,14 +3,13 @@ package bg.fmi.javaweb.sportstournamentorganizer.service;
 import bg.fmi.javaweb.sportstournamentorganizer.dto.PlayerInputDto;
 import bg.fmi.javaweb.sportstournamentorganizer.dto.TeamInputDto;
 import bg.fmi.javaweb.sportstournamentorganizer.dto.TeamOutputDto;
-import bg.fmi.javaweb.sportstournamentorganizer.exception.ManagerAlreadyExistsException;
-import bg.fmi.javaweb.sportstournamentorganizer.exception.ManagerNotFoundException;
-import bg.fmi.javaweb.sportstournamentorganizer.exception.TeamNotFoundException;
+import bg.fmi.javaweb.sportstournamentorganizer.exception.*;
 import bg.fmi.javaweb.sportstournamentorganizer.mapper.PlayerMapper;
 import bg.fmi.javaweb.sportstournamentorganizer.mapper.TeamMapper;
 import bg.fmi.javaweb.sportstournamentorganizer.model.Manager;
 import bg.fmi.javaweb.sportstournamentorganizer.model.Player;
 import bg.fmi.javaweb.sportstournamentorganizer.model.Team;
+import bg.fmi.javaweb.sportstournamentorganizer.model.Tournament;
 import bg.fmi.javaweb.sportstournamentorganizer.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +26,12 @@ public class TeamService {
     @Autowired
     private PlayerMapper playerMapper;
 
+    @Autowired
+    private PlayerService playerService;
+
     public Team toTeam(TeamInputDto teamInputDto) {
         return teamMapper.mapFromInputDto(teamInputDto);
     }
-
 
     public TeamOutputDto addTeam(TeamInputDto teamInputDto) {
         Team team = teamMapper.mapFromInputDto(teamInputDto);
@@ -45,14 +46,54 @@ public class TeamService {
 
     }
 
-    public TeamOutputDto findManagerBy_UserId(Long userId) {
-        return teamMapper.mapToOutputDto(teamRepository.findByManager_UserId(userId).orElseThrow(() -> new TeamNotFoundException(userId)));
+    public Team addTeam(Manager manager, TeamInputDto teamInputDto) {
+        if(teamRepository.findByManager_UserId(manager.getUserId()).isPresent()) {
+            throw new ManagerAlreadyExistsException(manager.getUserId());
+        }
+
+        if(teamRepository.existsByTeamName(teamInputDto.getTeamName())) {
+            throw new TeamAlreadyExistsException(teamInputDto.getTeamName());
+        }
+
+        Team team = teamMapper.mapFromInputDto(teamInputDto);
+
+        team.setManager(manager);
+
+        return teamRepository.save(team);
+    }
+
+    public Team findManagerBy_UserId(Long userId) {
+        return   teamRepository.findByManager_UserId(userId).orElseThrow(() -> new TeamNotFoundException(userId));
+    }
+
+    public TeamOutputDto findManagerBy_UserIdToDto(Long userId) {
+        return teamMapper.mapToOutputDto(findManagerBy_UserId(userId));
+    }
+
+    public Team addPlayerToTeam(Long id, String username) {
+        Team team = teamRepository.findByManager_UserId(id)
+                .orElseThrow(() -> new ManagerNotFoundException(id));
+
+        if(!playerService.existsByUsername(username)) {
+            throw new PlayerNotFoundException(username);
+        }
+
+        Player player = playerService.findByUsername(username);
+        player.setPlayerTeam(team);
+
+        team.getTeamPlayers().add(player);
+
+        return teamRepository.save(team);
+    }
+
+    public Team findByTeamName(String teamName) {
+        return teamRepository.findByTeamName(teamName).orElseThrow(() -> new TeamNotFoundException(teamName));
     }
 
     @Transactional(readOnly = true)
-    public TeamOutputDto findByTeamName(String teamName) {
+    public TeamOutputDto findByTeamNameToDto(String teamName) {
 
-        return teamMapper.mapToOutputDto(teamRepository.findByTeamName(teamName).orElseThrow(() -> new TeamNotFoundException(teamName)));
+        return teamMapper.mapToOutputDto(findByTeamName(teamName));
     }
 
     @Transactional(readOnly = true)
@@ -72,6 +113,11 @@ public class TeamService {
 
     }
 
+    public void setTournamentToTeam(Team team, Tournament tournament) {
+        team.setTournament(tournament);
+
+        teamRepository.save(team);
+    }
 
 //
 //    public boolean removeTeam(Integer id) {

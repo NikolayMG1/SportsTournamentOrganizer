@@ -5,7 +5,6 @@ import bg.fmi.javaweb.sportstournamentorganizer.dto.PlayerOutputDto;
 import bg.fmi.javaweb.sportstournamentorganizer.exception.PlayerNotFoundException;
 import bg.fmi.javaweb.sportstournamentorganizer.mapper.PlayerMapper;
 import bg.fmi.javaweb.sportstournamentorganizer.model.Player;
-import bg.fmi.javaweb.sportstournamentorganizer.model.Team;
 import bg.fmi.javaweb.sportstournamentorganizer.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,24 +21,25 @@ public class PlayerService {
     @Autowired
     private PlayerMapper playerMapper;
 
-    @Autowired
-    private TeamService teamService;
-
     public PlayerOutputDto findById(Long id) {
-        return playerMapper.mapToOutputDto(playerRepository.findById(id).orElseThrow(() -> new PlayerNotFoundException(id)));
+        return convert(playerRepository.findById(id).orElseThrow(() -> new PlayerNotFoundException(id)));
     }
 
-    public PlayerOutputDto findByUsername(String username) {
-        return playerMapper.mapToOutputDto(playerRepository.findByUsername(username).orElseThrow(() -> new PlayerNotFoundException(username)));
+    public Player findByUsername(String username) {
+        return playerRepository.findByUsername(username).orElseThrow(() -> new PlayerNotFoundException(username));
+
+    }
+    public PlayerOutputDto findByUsernameAsDto(String username) {
+        return convert(findByUsername(username));
     }
 
     public List<PlayerOutputDto> findAll() {
-        return playerRepository.findAll().stream().map(player -> playerMapper.mapToOutputDto(player)).toList();
+        return playerRepository.findAll().stream().map(player -> convert(player)).toList();
     }
 
     public PlayerOutputDto createPlayer(PlayerInputDto playerInputDto) {
-        Player player = playerMapper.mapFromInputDto(playerInputDto);
-        return playerMapper.mapToOutputDto(playerRepository.save(player));
+        Player player = convert(playerInputDto);
+        return convert(playerRepository.save(player));
     }
 
     @Transactional(readOnly = true)
@@ -48,8 +48,21 @@ public class PlayerService {
 
         player.setUsername(username);
 
-        return playerMapper.mapToOutputDto(playerRepository.save(player));
+        return convert(playerRepository.save(player));
     }
+
+    public boolean existsByUsername(String username) {
+        return playerRepository.existsByUsername(username);
+    }
+
+    private PlayerOutputDto convert(Player player) {
+        return playerMapper.mapToOutputDto(player);
+    }
+
+    private Player convert(PlayerInputDto playerInputDto) {
+        return playerMapper.mapFromInputDto(playerInputDto);
+    }
+
 
 
 //    private PlayerRepository playerRepository = new PlayerRepository();

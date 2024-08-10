@@ -2,10 +2,14 @@ package bg.fmi.javaweb.sportstournamentorganizer.model;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -13,8 +17,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Moderator extends User{
 
-    @OneToOne(mappedBy = "tournamentModerator")
-    private Tournament tournament;
+    @OneToMany(mappedBy = "tournamentModerator")
+    private Set<Tournament> tournaments;
 
     @Override
     public int hashCode() {

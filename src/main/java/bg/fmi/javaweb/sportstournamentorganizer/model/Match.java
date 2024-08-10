@@ -15,10 +15,12 @@
     @Getter
     @Entity(name = "matches")
     @NoArgsConstructor
-    public class Match {
+    @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+    @DiscriminatorColumn(name = "sport_type")
+    public abstract class Match {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer matchId;
+        private Long matchId;
 
         @ManyToOne
         @JoinColumn(name = "host_team_id", referencedColumnName = "teamId")
@@ -29,14 +31,11 @@
         private Team guest;
 
         @Enumerated(EnumType.STRING)
-        private SportType matchSportType;
-
-        @Enumerated(EnumType.STRING)
-        private SportMastery matchSportMastery;
+        private SportMastery sportMastery;
 
         @ManyToOne(cascade = CascadeType.ALL)
         @JoinColumn(name = "tournamentId", referencedColumnName = "tournamentId")
-        private Tournament matchTournament;
+        private Tournament tournament;
 
         //private Entry<Integer, Integer> score;
 
@@ -48,34 +47,23 @@
 
         private String matchLocation;
 
-        public Match(Integer matchId, Team host, Team guest, SportType matchSportType, SportMastery matchSportMastery,
+        private String result;
+
+        @Enumerated(EnumType.STRING)
+        private MatchStatus matchStatus;
+
+        public Match(Long matchId, Team host, Team guest, SportMastery sportMastery,
                      Tournament matchTournament, Entry<Integer, Integer> score, LocalDateTime matchStartTime,
                      LocalDateTime matchEndTime, String matchLocation) {
             this.matchId = matchId;
             this.host = host;
             this.guest = guest;
-            this.matchSportType = matchSportType;
-            this.matchSportMastery = matchSportMastery;
-            this.matchTournament = matchTournament;
+            this.sportMastery = sportMastery;
+            this.tournament = matchTournament;
             //this.score = score;
             this.matchStartTime = matchStartTime;
             this.matchEndTime = matchEndTime;
             this.matchLocation = matchLocation;
         }
 
-        @Override
-        public int hashCode() {
-            return matchId.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            return matchId.equals( ((Match) o).matchId );
-        }
     }

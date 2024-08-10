@@ -17,6 +17,8 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
 
     Optional<Player> findByUsername(String username);
 
+    boolean existsByUsername(String username);
+
 //    private static Map<Integer, Player> playerMap = new HashMap<>();
 //
 //    public void addPlayer(Player player) {

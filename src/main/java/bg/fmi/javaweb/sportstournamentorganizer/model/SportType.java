@@ -7,8 +7,7 @@ public enum SportType {
     FOOTBALL("Football"),
     BASKETBALL("Basketball"),
     TENNIS("Tennis"),
-    VOLLEYBALL("Volleyball"),
-    RUGBY("Rugby");
+    VOLLEYBALL("Volleyball");
 
     private final String sportType;
 

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+//TODO: add sportType to manager
 @Setter
 @Getter
 @Entity(name = "managers")

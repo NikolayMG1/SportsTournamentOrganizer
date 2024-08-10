@@ -3,7 +3,6 @@ package bg.fmi.javaweb.sportstournamentorganizer.controller;
 import bg.fmi.javaweb.sportstournamentorganizer.dto.PlayerInputDto;
 import bg.fmi.javaweb.sportstournamentorganizer.dto.TeamInputDto;
 import bg.fmi.javaweb.sportstournamentorganizer.dto.TeamOutputDto;
-import bg.fmi.javaweb.sportstournamentorganizer.model.Team;
 import bg.fmi.javaweb.sportstournamentorganizer.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,14 +21,14 @@ public class TeamController {
             return new ResponseEntity<>(teamService.addTeam(teamInputDto), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TeamOutputDto> findById(@PathVariable Long id) {
+    @GetMapping("/get-team")
+    public ResponseEntity<TeamOutputDto> findById(@RequestParam Long id) {
         return new ResponseEntity<>(teamService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("/teamName/{teamName}")
     public ResponseEntity<TeamOutputDto> findByTeamName(@PathVariable String teamName) {
-        return new ResponseEntity<>(teamService.findByTeamName(teamName), HttpStatus.OK);
+        return new ResponseEntity<>(teamService.findByTeamNameToDto(teamName), HttpStatus.OK);
     }
 
     @PatchMapping("/addPlayer")

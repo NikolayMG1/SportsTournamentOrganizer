@@ -7,9 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public interface TournamentRepository extends JpaRepository<Tournament, Long> {
+
+    Optional<Tournament> findById(Long id);
+    Optional<Tournament> findByTournamentName(String tournamentName);
+
    // private static Map<Integer, Tournament> tournamentMap = new HashMap<>();
 
 //    public void addTournament(Tournament tournament) {
